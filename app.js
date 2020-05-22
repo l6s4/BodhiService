@@ -1,14 +1,20 @@
-const typeDefs = require("./graphql/schema/index_typeDefs")
-const resolvers = require("./graphql/resolvers/index_resolvers")
-const { GraphQLServer } = require('graphql-yoga');
-const server = new GraphQLServer({ typeDefs, resolvers });
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+const express = require("express");
+const bodyParser = require("body-parser");
+const graphqlHttp = require("express-graphql");
+const schema = require("./graphql/schema/index");
+const resolvers = require("./graphql/resolvers/index");
+const cors = require("cors");
+const app = express();
 
+app.use(bodyParser.json());
+app.use(cors());
+app.use(
+  "/graphql",
+  graphqlHttp({
+    schema: schema,
+    rootValue: resolvers,
+    graphiql: true
+  })
+);
 
-// app.use("/graphql", graphqlHttp({
-//     schema: graphqlSchema,
-//     rootValue: graphqlResolvers,
-//     graphiql: true
-// }))
-
-// app.listen(3000);
+app.listen(4000);
