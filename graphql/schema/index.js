@@ -11,8 +11,9 @@ type LoginInfo{
     email_id:String
     first_name:String
     last_name:String
-    message:String
+    error: String!
 }
+  
 input CreateUserInput{
     email_id: String!
     password:String!
@@ -22,6 +23,7 @@ input CreateUserInput{
     dob:String!
     address:String!
     contact_no:String!
+    clinic_id:String
 }
 type CreateUserOutput{
     status:String
@@ -30,19 +32,19 @@ type CreateUserOutput{
     message:String
 }
 type User{
-    email_id: String!
-    password:String!
-    first_name:String!
-    last_name:String!
-    user_type:String!
-    dob:String!
-    address:String!
-    contact_no:String!
+    email_id: String
+    password:String
+    first_name:String
+    last_name:String
+    user_type:String
+    dob:String
+    address:String
+    contact_no:String
 }
 type RootQuery {
     hello(name: String): String!
     health:String!
-    getUserByEmail(email_id:String!):[User!]!
+    getUserByEmail(email_id:String!):User
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
