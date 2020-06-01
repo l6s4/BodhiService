@@ -11,7 +11,6 @@ type LoginInfo{
     email_id:String
     first_name:String
     last_name:String
-    error: String!
 }
   
 input CreateUserInput{
@@ -26,29 +25,43 @@ input CreateUserInput{
     clinic_id:String
 }
 type CreateUserOutput{
-    status:String
     email_id:String
     user_type:String
-    message:String
 }
 type User{
     email_id: String
     password:String
     first_name:String
     last_name:String
-    user_type:String
     dob:String
     address:String
     contact_no:String
 }
+input UpdateUserInput{
+    email_id: String!
+    password:String
+    first_name:String!
+    last_name:String!
+    dob:String!
+    address:String!
+    contact_no:String!
+}
+type UpdateUserOutput{
+    updated:Boolean!
+}
+type Health{
+    status: String!
+    start_up_time: String!
+    VERSION: String!
+}
 type RootQuery {
-    hello(name: String): String!
-    health:String!
+    health:Health!
     getUserByEmail(email_id:String!):User
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
     createUser(createUserInput:CreateUserInput):CreateUserOutput!
+    updateUser(updateUserInput:UpdateUserInput):UpdateUserOutput!
 }
 schema {
     query: RootQuery
