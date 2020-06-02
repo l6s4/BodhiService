@@ -49,6 +49,9 @@ input UpdateUserInput{
 type UpdateUserOutput{
     updated:Boolean!
 }
+type deleteUserOutput{
+    deleted:Boolean!
+}
 type Health{
     status: String!
     start_up_time: String!
@@ -62,6 +65,7 @@ type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
     createUser(createUserInput:CreateUserInput):CreateUserOutput!
     updateUser(updateUserInput:UpdateUserInput):UpdateUserOutput!
+    deleteUser(email_id:String!):deleteUserOutput
 }
 schema {
     query: RootQuery
