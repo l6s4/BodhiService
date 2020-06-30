@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const baseURL = `http://localhost:3001/api/v1`;
+const clinicUrl = `http://localhost:3002/api/v1`;
 const time = new Date();
 const resolvers = {
     health: async () => {
@@ -62,6 +63,14 @@ const resolvers = {
             }
         }).then(throwOnFailure);
         return updateUserResponse.json();
+    },
+    getClinicByName: async (args, req) => {
+        const getClinicByNameResponse = await fetch(`${clinicUrl}/clinic/name/${args.name}`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(throwOnFailure);
+        return getClinicByNameResponse.json();
     }
 }
 async function throwOnFailure(resData) {

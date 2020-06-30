@@ -57,9 +57,13 @@ type Health{
     start_up_time: String!
     VERSION: String!
 }
+type Clinic{
+    name:String
+}
 type RootQuery {
     health:Health!
     getUserByEmail(email_id:String!):User
+    getClinicByName(name:String!):[Clinic]
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
