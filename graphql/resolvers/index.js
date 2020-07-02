@@ -65,12 +65,20 @@ const resolvers = {
         return updateUserResponse.json();
     },
     getClinicByName: async (args, req) => {
-        const getClinicByNameResponse = await fetch(`${clinicUrl}/clinic/name/${args.name}`, {
+        const getClinicByNameResponse = await fetch(`${clinicUrl}/clinic/readFromCache/${args.clinic_name}`, {
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(throwOnFailure);
         return getClinicByNameResponse.json();
+    },
+    getClinicById: async (args, req) => {
+        const getClinicByIdResponse = await fetch(`${clinicUrl}/clinic/id/${args.clinic_id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(throwOnFailure);
+        return getClinicByIdResponse.json();
     }
 }
 async function throwOnFailure(resData) {
