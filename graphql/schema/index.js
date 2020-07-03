@@ -81,11 +81,15 @@ type Doctor{
     about:String!
     schedule:String!
 }
+type TimeSlot{
+    time_slot:String!
+}
 type RootQuery {
     health:Health!
     getUserByEmail(email_id:String!):User
     getClinicByName(clinic_name:String!):[ClinicNames!]!
     getClinicById(clinic_id:String!):Clinic!
+    getSchedule(doctor_id:String!):[TimeSlot!]!
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!

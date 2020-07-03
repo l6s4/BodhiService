@@ -1,13 +1,14 @@
 const fetch = require("node-fetch");
-const baseURL = `http://localhost:3001/api/v1`;
+const userURL = `http://localhost:3001/api/v1`;
 const clinicUrl = `http://localhost:3002/api/v1`;
+const bookingUrl = `http://localhost:3003/api/v1`;
 const time = new Date();
 const resolvers = {
     health: async () => {
         return Promise.resolve({ "status": "OK", "start_up_time": time.toISOString(), "VERSION": "1.0.0" });
     },
     login: async args => {
-        const loginResponse = await fetch(`${baseURL}/user/login`, {
+        const loginResponse = await fetch(`${userURL}/user/login`, {
             method: "POST",
             body: JSON.stringify({ "email_id": args.loginInput.email_id, "password": args.loginInput.password }),
             headers: { "Content-Type": "application/json" }
@@ -15,7 +16,7 @@ const resolvers = {
         return loginResponse.json();
     },
     createUser: async args => {
-        const createUserResponse = await fetch(`${baseURL}/user`, {
+        const createUserResponse = await fetch(`${userURL}/user`, {
             method: "POST",
             body: JSON.stringify({
                 "email_id": args.createUserInput.email_id,
@@ -37,7 +38,7 @@ const resolvers = {
     },
     getUserByEmail: async (args, req) => {
         //console.log(`req:${JSON.stringify(req.headers.authorization)}`);
-        const getUserByEmailResponse = await fetch(`${baseURL}/user/${args.email_id}`, {
+        const getUserByEmailResponse = await fetch(`${userURL}/user/${args.email_id}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": req.headers.authorization
@@ -46,7 +47,7 @@ const resolvers = {
         return getUserByEmailResponse.json();
     },
     updateUser: async (args, req) => {
-        const updateUserResponse = await fetch(`${baseURL}/user`, {
+        const updateUserResponse = await fetch(`${userURL}/user`, {
             method: "PUT",
             body: JSON.stringify({
                 "email_id": args.updateUserInput.email_id,
@@ -79,6 +80,14 @@ const resolvers = {
             }
         }).then(throwOnFailure);
         return getClinicByIdResponse.json();
+    },
+    getSchedule: async (args, req) => {
+        const getScheduleResponse = await fetch(`${bookingUrl}/booking/load/loadSchedule/${args.doctor_id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(throwOnFailure);
+        return getScheduleResponse.json();
     }
 }
 async function throwOnFailure(resData) {
