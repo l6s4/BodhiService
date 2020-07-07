@@ -49,6 +49,16 @@ input UpdateUserInput{
 type UpdateUserOutput{
     updated:Boolean!
 }
+input CreateBookingInput{
+    patient_email_id:String!
+    clinic_id:String!
+    doctor_id:String!
+    time_slot:String
+    status:String!
+}
+type CreateBookingOutput{
+    bookedStatus:String!
+}
 type deleteUserOutput{
     deleted:Boolean!
 }
@@ -62,6 +72,7 @@ type ClinicNames{
     id:String!
 }
 type Clinic{
+    _id:String!,
     name: String!,
     email_id:String!,
     street:String!,
@@ -82,6 +93,7 @@ type Doctor{
     schedule:String!
 }
 type TimeSlot{
+    doctor_id:String!,
     time_slot:String!
 }
 type RootQuery {
@@ -89,13 +101,14 @@ type RootQuery {
     getUserByEmail(email_id:String!):User
     getClinicByName(clinic_name:String!):[ClinicNames!]!
     getClinicById(clinic_id:String!):Clinic!
-    getSchedule(doctor_id:String!):[TimeSlot!]!
+    getSchedule(clinic_id:String!,given_date:String!):[TimeSlot!]!
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
     createUser(createUserInput:CreateUserInput):CreateUserOutput!
     updateUser(updateUserInput:UpdateUserInput):UpdateUserOutput!
     deleteUser(email_id:String!):deleteUserOutput
+    createBooking(createBookingInput:CreateBookingInput):CreateBookingOutput!
 }
 schema {
     query: RootQuery

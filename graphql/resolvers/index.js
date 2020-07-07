@@ -82,12 +82,30 @@ const resolvers = {
         return getClinicByIdResponse.json();
     },
     getSchedule: async (args, req) => {
-        const getScheduleResponse = await fetch(`${bookingUrl}/booking/load/loadSchedule/${args.doctor_id}`, {
+        const getScheduleResponse = await fetch(`${bookingUrl}/booking/load/loadSchedule/${args.clinic_id}/${args.given_date}`, {
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(throwOnFailure);
         return getScheduleResponse.json();
+    },
+    createBooking: async (args, req) => {
+        console.log(`input:${args.createBookingInput.patient_email_id}`);
+        const createBookingResponse = await fetch(`${bookingUrl}/booking/`, {
+            method: "POST",
+            body: JSON.stringify({
+                "patient_email_id": args.createBookingInput.patient_email_id,
+                "clinic_id": args.createBookingInput.clinic_id,
+                "doctor_id": args.createBookingInput.doctor_id,
+                "time_slot": args.createBookingInput.time_slot,
+                "status": args.createBookingInput.status,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": req.headers.authorization
+            }
+        }).then(throwOnFailure);
+        return createBookingResponse.json();
     }
 }
 async function throwOnFailure(resData) {
