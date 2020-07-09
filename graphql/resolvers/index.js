@@ -106,7 +106,16 @@ const resolvers = {
             }
         }).then(throwOnFailure);
         return createBookingResponse.json();
-    }
+    },
+    getMyBookings: async (args, req) => {
+        const getMyBookingsResponse = await fetch(`${bookingUrl}/booking/viewBooking/${args.email_id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": req.headers.authorization
+            }
+        }).then(throwOnFailure);
+        return getMyBookingsResponse.json();
+    },
 }
 async function throwOnFailure(resData) {
     if (resData.status !== 200 && resData.status !== 201) {

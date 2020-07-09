@@ -96,12 +96,20 @@ type TimeSlot{
     doctor_id:String!,
     time_slot:String!
 }
+type Bookings{
+    email_id:String!,
+    clinic_name:String!,
+    doctor_name:String!,
+    time_slot:String!,
+    status:String!
+}
 type RootQuery {
     health:Health!
     getUserByEmail(email_id:String!):User
     getClinicByName(clinic_name:String!):[ClinicNames!]!
     getClinicById(clinic_id:String!):Clinic!
     getSchedule(clinic_id:String!,given_date:String!):[TimeSlot!]!
+    getMyBookings(email_id:String!):[Bookings!]!
 }
 type RootMutation {
     login(loginInput:LoginInput): LoginInfo!
